@@ -16,19 +16,19 @@ const stage     = document.getElementById("stage");
 const pigWrap   = document.getElementById("pig-wrap");
 const message   = document.getElementById("message");
 
-qrBox.addEventListener("click", startSequence);
 startBtn.addEventListener("click", startSequence);
 
 function startSequence(){
-  // ซ่อนส่วน QR → โชว์เวที
+  // ซ่อนส่วนแรก
   qrSection.style.display = "none";
+  // แสดงเวที
   stage.style.display = "block";
   stage.setAttribute("aria-hidden", "false");
 
-  // เริ่มให้หมูเดินก่อน (อย่าให้ข้อความขึ้นตรงนี้)
+  // ให้หมูเดิน
   pigWrap.classList.add("walk");
 
-  // เมื่อแอนิเมชันเดินจบ → ค่อยโชว์ข้อความ + เปิดฝน
+  // เมื่อหมูเดินเสร็จ → แสดงข้อความ + ฝนตัวอักษร
   pigWrap.addEventListener("animationend", () => {
     message.classList.add("show");
     stage.classList.add("rain-on");
