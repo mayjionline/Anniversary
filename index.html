@@ -4,21 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Anniversary</title>
-    <!-- ✅ โหลด CSS -->
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div id="app">
-      <!-- SECTION: QR -->
+      <!-- หน้าแรก -->
       <section id="qr-section">
         <h1 class="title">เซอร์ไพรส์หมู 💖</h1>
-       <div class="heart-mask">
-        <button id="startBtn" class="btn">เริ่มเซอร์ไพรส์</button>
+        <div class="heart-mask">
+          <button id="startBtn" class="btn">เริ่มเซอร์ไพรส์</button>
         </div>
       </section>
 
-      <!-- SECTION: เวทีแอนิเมชัน -->
-      <section id="stage" aria-hidden="true">
+      <!-- เวทีแอนิเมชัน -->
+      <section id="stage" aria-hidden="true" style="display:none">
         <div id="rain"></div>
 
         <div id="pig-wrap">
@@ -48,8 +47,7 @@
       </section>
     </div>
 
-    <!-- ✅ โหลด JS -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <!-- ไม่มี qrcode.min.js แล้ว -->
     <script src="./script.js"></script>
   </body>
 </html>
