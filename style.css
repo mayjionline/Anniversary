@@ -1,0 +1,146 @@
+:root {
+  --bg1: #fff5f9;
+  --bg2: #ffe4ef;
+  --accent: #ff4d8d;
+  --ink: #2f2a2a;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, "Noto Sans Thai", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(1200px 600px at 50% -10%, var(--bg2), var(--bg1));
+}
+
+#app { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+
+/* ---------- QR Section ---------- */
+#qr-section {
+  text-align: center;
+  display: grid;
+  gap: 12px;
+  align-items: center;
+  justify-items: center;
+}
+
+.title { margin: 6px 0 0; font-size: 24px; }
+.hint { margin: 0 0 10px; opacity: .7; font-size: 14px; }
+
+.heart-mask {
+  position: relative;
+  width: 260px; height: 260px;
+  display: grid; place-items: center;
+  padding: 16px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(255,77,141,.25);
+}
+
+/* ทำให้กรอบ QR เป็น "หัวใจ" ด้วย CSS mask */
+#qr-container {
+  width: 220px; height: 220px;
+  display: grid; place-items: center;
+  /* หัวใจจาก mask: 2 วงกลม + สี่เหลี่ยมล่าง */
+  -webkit-mask:
+    radial-gradient(50px 50px at 35% 35%, #000 99%, transparent) no-repeat,
+    radial-gradient(50px 50px at 65% 35%, #000 99%, transparent) no-repeat,
+    linear-gradient(#000 0 0);
+  -webkit-mask-size: 50% 55%, 50% 55%, 100% 70%;
+  -webkit-mask-position: 0 0, 100% 0, 0 30%;
+          mask:
+    radial-gradient(50px 50px at 35% 35%, #000 99%, transparent) no-repeat,
+    radial-gradient(50px 50px at 65% 35%, #000 99%, transparent) no-repeat,
+    linear-gradient(#000 0 0);
+  mask-size: 50% 55%, 50% 55%, 100% 70%;
+  mask-position: 0 0, 100% 0, 0 30%;
+  overflow: hidden;
+  background: #fff; /* ฉากหลังสำหรับ QR canvas */
+  border: 2px solid #ffb6cc;
+  border-radius: 20px; /* เผื่อ browser ไม่รองรับ mask */
+}
+
+#qr-container canvas { display: block; }
+
+/* ปุ่มเริ่ม */
+.btn {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: white; border: 0;
+  padding: 10px 14px; border-radius: 999px; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(255,77,141,.35);
+  font-weight: 600; letter-spacing: .2px;
+}
+.btn:active { transform: translateX(-50%) translateY(1px); }
+
+/* ---------- เวทีแอนิเมชัน ---------- */
+#stage {
+  position: relative;
+  width: min(900px, 90vw);
+  height: 60vh;
+  min-height: 420px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #fff, #ffeef4 55%, #ffd7e6);
+  box-shadow: 0 20px 60px rgba(255,77,141,.25);
+  overflow: hidden;
+  display: none;             /* ซ่อนก่อน */
+}
+
+/* ฝนตัวอักษร */
+#rain { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s ease; }
+#stage.rain-on #rain { opacity: 1; }
+
+.drop {
+  position: absolute;
+  top: -120%;
+  white-space: pre;           /* ให้ขึ้นบรรทัดตาม \n */
+  font-weight: 700;
+  font-size: clamp(14px, 2.6vw, 24px);
+  color: rgba(255, 77, 141, .75);
+  text-shadow: 0 2px 0 #fff;
+  animation: fall var(--dur) linear var(--delay) infinite;
+  filter: drop-shadow(0 6px 6px rgba(255,77,141,.25));
+}
+@keyframes fall {
+  to { transform: translateY(220%); }
+}
+
+/* หมูเดิน */
+#pig-wrap {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(50vw);              /* เริ่มนอกจอด้านขวา */
+  will-change: transform;
+}
+#pig-wrap.walk {
+  animation: pig-walk 9s ease-in-out forwards;
+}
+@keyframes pig-walk {
+  from { transform: translateX(50vw); }
+  to   { transform: translateX(-70vw); }
+}
+#pig { display: block; }
+
+/* ข้อความหลังจบ */
+#message {
+  position: absolute; bottom: 120px; left: 50%;
+  transform: translateX(-50%);
+  opacity: 0; transition: opacity .6s ease, transform .6s ease;
+}
+#message.show {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+.bubble {
+  background: #fff;
+  border: 2px solid #ffc1d4;
+  padding: 14px 18px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(255,77,141,.18);
+  font-size: clamp(16px, 2.6vw, 20px);
+  text-align: center;
+}
+
+/* ปรับ layout จอเล็ก */
+@media (max-width: 560px) {
+  #stage { height: 56vh; min-height: 380px; }
+  #pig-wrap { bottom: 28px; }
+}
