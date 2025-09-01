@@ -1,7 +1,7 @@
-// ---------- สร้าง QR ภายในกรอบหัวใจ ----------
+// ---------- สร้าง QR ----------
 const qrBox = document.getElementById("qr-container");
 new QRCode(qrBox, {
-  text: "https://example.com/our-anniversary", // เปลี่ยนลิงก์ได้ตามต้องการ
+  text: "https://example.com/our-anniversary",
   width: 220,
   height: 220,
   colorDark: "#000000",
@@ -16,7 +16,6 @@ const stage     = document.getElementById("stage");
 const pigWrap   = document.getElementById("pig-wrap");
 const message   = document.getElementById("message");
 
-// คลิกคิวอาร์หรือปุ่มเพื่อเริ่ม (จำลอง "สแกนแล้ว")
 qrBox.addEventListener("click", startSequence);
 startBtn.addEventListener("click", startSequence);
 
@@ -26,19 +25,20 @@ function startSequence(){
   stage.style.display = "block";
   stage.setAttribute("aria-hidden", "false");
 
-  // ข้อความขึ้นทันที + เปิดฝนตัวอักษร
-  message.classList.add("show");
-  stage.classList.add("rain-on");
-
-  // เริ่มให้หมูเดิน
+  // เริ่มให้หมูเดินก่อน (อย่าให้ข้อความขึ้นตรงนี้)
   pigWrap.classList.add("walk");
+
+  // เมื่อแอนิเมชันเดินจบ → ค่อยโชว์ข้อความ + เปิดฝน
+  pigWrap.addEventListener("animationend", () => {
+    message.classList.add("show");
+    stage.classList.add("rain-on");
+  }, { once: true });
 }
 
-// ---------- สร้างพื้นหลังตัวอักษร "Happy Anniversary" ไหลตก ----------
+// ---------- พื้นหลังตัวอักษร ----------
 const rain = document.getElementById("rain");
 const TEXT = "H\na\np\np\ny\n \nA\nn\nn\ni\nv\ne\nr\ns\na\nr\ny";
 const COLS = 9;
-
 for (let i = 0; i < COLS; i++) {
   const d = document.createElement("div");
   d.className = "drop";
